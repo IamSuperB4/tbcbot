@@ -126,7 +126,7 @@ bot.on('message', message => {
             if(randomNumber == 0) message.channel.send(`Ehhh ${message.member}`);
             if(randomNumber == 1) message.channel.send(`Not too bad, how about yours ${message.member}?`);
             if(randomNumber == 2) message.channel.send(`Kinda boring just sitting here all day. You ${message.member}?`);
-            if(randomNumber == 3) message.channel.send(`It's amazing going amazing! How about yours ${message.member}?`);
+            if(randomNumber == 3) message.channel.send(`It's going amazing! How about yours ${message.member}?`);
             if(randomNumber == 4) message.channel.send(`I gotta say, it's been a good day. How's yours ${message.member}?`);
             if(randomNumber == 5) message.channel.send(`I'm liking it so far. How's your day ${message.member}?`);
           }
@@ -140,6 +140,72 @@ bot.on('message', message => {
             if(randomNumber == 3) message.channel.send(`Anytime! ${message.member}!`);
             if(randomNumber == 4) message.channel.send(`Happy to be of service ${message.member}!`);
             if(randomNumber == 5) message.channel.send(`Happy to help ${message.member}`);
+          }
+          
+          if(message.content.includes("lucky")
+          && message.content.includes("number")) {
+            let randomNumber = Math.floor(Math.random() * 1000);
+            message.channel.send(`${randomNumber} ${message.member}!`);
+          }
+          
+          if(message.content.includes("8")
+          && message.content.includes("ball")
+          || message.content.includes("8")
+          && message.content.includes("Ball")
+          || message.content.includes("eight")
+          && message.content.includes("ball")
+          || message.content.includes("eight")
+          && message.content.includes("Ball")) {
+            let randomNumber = Math.floor(Math.random() * 20);
+            if(randomNumber == 0) message.channel.send(`It is certain ${message.member}`);
+            if(randomNumber == 1) message.channel.send(`It is decidedly so ${message.member}`);
+            if(randomNumber == 2) message.channel.send(`Without a doubt ${message.member}`);
+            if(randomNumber == 3) message.channel.send(`Yes - Definitely ${message.member}`);
+            if(randomNumber == 4) message.channel.send(`You may rely on it ${message.member}`);
+            if(randomNumber == 5) message.channel.send(`As I see it, yes ${message.member}`);
+            if(randomNumber == 6) message.channel.send(`Most likely ${message.member}`);
+            if(randomNumber == 7) message.channel.send(`Outlook good ${message.member}`);
+            if(randomNumber == 8) message.channel.send(`Yes ${message.member}`);
+            if(randomNumber == 9) message.channel.send(`Signs point to yes ${message.member}`);
+            if(randomNumber == 10) message.channel.send(`Reply hazy, try again ${message.member}`);
+            if(randomNumber == 11) message.channel.send(`Ask again later ${message.member}`);
+            if(randomNumber == 12) message.channel.send(`Better not tell you now ${message.member}`);
+            if(randomNumber == 13) message.channel.send(`Cannot predict now ${message.member}`);
+            if(randomNumber == 14) message.channel.send(`Concentrate and ask again ${message.member}`);
+            if(randomNumber == 15) message.channel.send(`Don't count on it ${message.member}`);
+            if(randomNumber == 16) message.channel.send(`My reply is no ${message.member}`);
+            if(randomNumber == 17) message.channel.send(`My sources say no ${message.member}`);
+            if(randomNumber == 18) message.channel.send(`Outlook not so good ${message.member}`);
+            if(randomNumber == 19) message.channel.send(`Very doubtful ${message.member}`);
+          }
+          
+          if(message.content.includes("Win")
+          && message.content.includes("?")
+          || message.content.includes("win")
+          && message.content.includes("?")) {
+            let randomNumber = Math.floor(Math.random() * 10);
+            if(randomNumber == 0) message.channel.send(`Yes ${message.member}`);
+            if(randomNumber == 1) message.channel.send(`Not today ${message.member}`);
+            if(randomNumber == 2) message.channel.send(`Yes, $5 ${message.member}`);
+            if(randomNumber == 3) message.channel.send(`No, you actually lost ${message.member}`);
+            if(randomNumber == 4) message.channel.send(`I don't think so ${message.member}`);
+            if(randomNumber == 5) message.channel.send(`Let me check my books... no ${message.member}`);
+            if(randomNumber == 6) message.channel.send(`Let me check my books... yes ${message.member}`);
+            if(randomNumber == 7) message.channel.send(`You did win ${message.member}`);
+            if(randomNumber == 8) message.channel.send(`All the time ${message.member}`);
+            if(randomNumber == 9) message.channel.send(`Not for a while ${message.member}`);
+          }
+          
+          if(message.content.includes("like")
+          && message.content.includes("me")
+          || message.content.includes("Like")
+          && message.content.includes("Me")) {
+            let randomNumber = Math.floor(Math.random() * 5);
+            if(randomNumber == 0) message.channel.send(`I do, yes ${message.member}!`);
+            if(randomNumber == 1) message.channel.send(`Of course ${message.member}!`);
+            if(randomNumber == 2) message.channel.send(`Why wouldn't I ${message.member}?`);
+            if(randomNumber == 3) message.channel.send(`I'll always be your friend ${message.member}!`);
+            if(randomNumber == 4) message.channel.send(`You don't need to worry about that ${message.member}!`);
           }
       }
 });
