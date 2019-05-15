@@ -125,10 +125,21 @@ bot.on('message', message => {
             let randomNumber = Math.floor(Math.random() * 6);
             if(randomNumber == 0) message.channel.send(`Ehhh ${message.member}`);
             if(randomNumber == 1) message.channel.send(`Not too bad, how about yours ${message.member}?`);
-            if(randomNumber == 2) message.channel.send(`Kinda boring just sitting here all day ${message.member}`);
+            if(randomNumber == 2) message.channel.send(`Kinda boring just sitting here all day. You ${message.member}?`);
             if(randomNumber == 3) message.channel.send(`It's amazing going amazing! How about yours ${message.member}?`);
-            if(randomNumber == 4) message.channel.send(`I gotta say, it's been a good day ${message.member}`);
+            if(randomNumber == 4) message.channel.send(`I gotta say, it's been a good day. How's yours ${message.member}?`);
             if(randomNumber == 5) message.channel.send(`I'm liking it so far. How's your day ${message.member}?`);
+          }
+          
+          if(message.content.includes("Thank")
+          && message.content.includes("thank")) {
+            let randomNumber = Math.floor(Math.random() * 6);
+            if(randomNumber == 0) message.channel.send(`You're welcome ${message.member}!`);
+            if(randomNumber == 1) message.channel.send(`No problem ${message.member}`);
+            if(randomNumber == 2) message.channel.send(`Np ${message.member}`);
+            if(randomNumber == 3) message.channel.send(`Anytime! ${message.member}!`);
+            if(randomNumber == 4) message.channel.send(`Happy to be of service ${message.member}!`);
+            if(randomNumber == 5) message.channel.send(`Happy to help ${message.member}`);
           }
       }
 });
