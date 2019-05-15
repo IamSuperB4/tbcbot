@@ -44,6 +44,8 @@ module.exports.run = async (bot, message, args) => {
     .addField("Number of warnings", warns[warnUser.id].warns)
     .addField("Reason", reason);
 
+    message.channel.send(`You've been warned ${warnUser}`);
+
     let logChannel = message.guild.channels.find('name', "moderation-log");
     if(!logChannel) 
         return message.channel.send("Couldn't find warn channel");
