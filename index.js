@@ -5,6 +5,7 @@ const auth = require("./auth.json");
 const Discord = require("discord.js");
 const bot = new Discord.Client({ disableEveryone: true });
 const fs = require("fs");
+const token = process.env.token;
 
 bot.commands = new Discord.Collection();
 
@@ -239,4 +240,4 @@ bot.on('message', message => {
 
 
 
-bot.login(process.env.token);
+bot.login(token);
