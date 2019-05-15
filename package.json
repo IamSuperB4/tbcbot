@@ -1,0 +1,13 @@
+{
+    "name": "TestBot",
+    "version": "1.0.0",
+    "description": "Test bot for TBC",
+    "main": "index.js",
+    "author": "IamSuperB4",
+    "dependencies": {
+        "discord.io": "https://github.com/woor/discord.io/tarball/gateway_v6",
+        "discord.js": "^11.4.2",
+        "ms": "^2.1.1",
+        "winston": "^3.2.1"
+    }
+}
