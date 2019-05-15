@@ -100,8 +100,8 @@ bot.on('message', message => {
       if(message.content.includes("<@578032411997110292>")) {
           if(message.content.includes("hello")
           || message.content.includes("Hello")
-          || message.content.includes("Hi")
-          || message.content.includes("hi")
+          || message.content.includes("Hi ")
+          || message.content.includes("hi ")
           || message.content.includes("Howdy")
           || message.content.includes("howdy")
           || message.content.includes("Hey")
@@ -236,7 +236,55 @@ bot.on('message', message => {
             if(randomNumber == 4) message.channel.send(`What kind of a question is that? It's IamSuperB4 ${message.member}!`);
           }
       }
+
+      if(message.content.includes("dog")
+      && message.content.includes("pic")
+      || message.content.includes("Dog")
+      && message.content.includes("pic")
+      || message.content.includes("dog")
+      && message.content.includes("Pic")
+      || message.content.includes("Dog")
+      && message.content.includes("Pic")) {
+        getAPI('https://dog.ceo/api/breeds/image/random', getDogs, true);
+      }
+
+      function getDogs(data) {
+        message.channel.send("My Bot's message", {files: [data.message[1]]});
+      }
+      
+      function getAPI(finalURL, functionName, json) {
+        if (json == true) {
+          fetch(finalURL)
+           .then(checkStatus)
+           .then(JSON.parse)
+           .then(functionName)
+           .catch(catchError);
+        }
+      }
+      
+      function checkStatus(response) {
+        const OK = 200;
+        const ERROR = 300;
+        if (response.status >= OK && response.status < ERROR) {
+          return response.text();
+        }
+        else {
+          return Promise.reject(new Error(response.status +
+                                           ": " + response.statusText));
+        }
+      }
+      
+      /**
+       * Alert the user that there was an error, and log the error
+       * @param {error} error - error sent from catch
+       */
+      function catchError(error) {
+        alert("Oops! Something didn't work right. Please refresh the page and try again");
+        console.log(error);
+      }
 });
+
+
 
 
 
