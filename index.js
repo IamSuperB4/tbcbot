@@ -117,6 +117,19 @@ bot.on('message', message => {
             if(randomNumber == 4) message.channel.send(`Hola ${message.member} mi amigo`);
             if(randomNumber == 5) message.channel.send(`Bonjour ${message.member}`);
           }
+
+          if(message.content.includes("How")
+          && message.content.includes("day")
+          || message.content.includes("how")
+          && message.content.includes("day")) {
+            let randomNumber = Math.floor(Math.random() * 6);
+            if(randomNumber == 0) message.channel.send(`Ehhh ${message.member}`);
+            if(randomNumber == 1) message.channel.send(`Not too bad, how about yours ${message.member}?`);
+            if(randomNumber == 2) message.channel.send(`Kinda boring just sitting here all day ${message.member}`);
+            if(randomNumber == 3) message.channel.send(`It's amazing going amazing! How about yours ${message.member}?`);
+            if(randomNumber == 4) message.channel.send(`I gotta say, it's been a good day ${message.member}`);
+            if(randomNumber == 5) message.channel.send(`I'm liking it so far. How's your day ${message.member}?`);
+          }
       }
 });
 
