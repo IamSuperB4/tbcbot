@@ -1,4 +1,5 @@
-require("http").createServer(async (req,res) => { res.statusCode = 200; res.write("ok"); res.end(); }).listen(3000, () => console.log("Now listening on port 3000"));
+require("http").createServer(async (req,res) => 
+    { res.statusCode = 200; res.write("ok"); res.end(); }).listen(3000, () => console.log("Now listening on port 3000"));
 
 const auth = require("./auth.json");
 const Discord = require("discord.js");
@@ -52,7 +53,7 @@ bot.on("guildMemberRemove", async member => {
 bot.on("guildBanAdd", async (guild, member) => {
     console.log(`${member.id} was banned`);
 
-    let banChannel = guild.channels.find('name', "bot-test2");
+    let banChannel = guild.channels.find('name', "moderation-log");
     console.log(banChannel);
     
     banChannel.send(`${member} was banned!`);
@@ -61,7 +62,7 @@ bot.on("guildBanAdd", async (guild, member) => {
 bot.on("guildBanRemove", async (guild, member) => {
     console.log(`${member.id} has been ununbanned`);
 
-    let banChannel = guild.channels.find('name', "bot-test2");
+    let banChannel = guild.channels.find('name', "moderation-log");
     console.log(banChannel);
     banChannel.send(`${member} has been unbanned!`);
 });
@@ -69,14 +70,14 @@ bot.on("guildBanRemove", async (guild, member) => {
 bot.on("channelCreate", async channel => {
     console.log(`${channel.name} has been created`);
 
-    let sChannel = channel.guild.channels.find('name', "bot-test");
+    let sChannel = channel.guild.channels.find('name', "moderation-log");
     sChannel.send(`${channel} has been created!`);
 });
 
 bot.on("channelDelete", async channel => {
     console.log(`${channel.name} has been deleted`);
 
-    let sChannel = channel.guild.channels.find('name', "bot-test");
+    let sChannel = channel.guild.channels.find('name', "moderation-log");
     sChannel.send(`${channel.name} has been deleted!`);
 });
 

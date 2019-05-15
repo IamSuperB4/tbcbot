@@ -1,7 +1,7 @@
 {
     "name": "TBC-Bot",
     "version": "1.0.0",
-    "description": "Test bot for TBC",
+    "description": "Bot for TBC",
     "main": "index.js",
     "author": "IamSuperB4",
     "dependencies": {
