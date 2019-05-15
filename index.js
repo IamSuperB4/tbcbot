@@ -97,7 +97,26 @@ bot.on("message", async message => {
 
 bot.on('message', message => {
       if(message.content.includes("<@578032411997110292>")) {
-        message.channel.send(`Hello ${message.member}`);
+          if(message.content.includes("hello")
+          || message.content.includes("Hello")
+          || message.content.includes("Hi")
+          || message.content.includes("hi")
+          || message.content.includes("Howdy")
+          || message.content.includes("howdy")
+          || message.content.includes("Hey")
+          || message.content.includes("hey")
+          || message.content.includes("hola")
+          || message.content.includes("Hola")
+          || message.content.includes("Bonjour")
+          || message.content.includes("bonjour")) {
+            let randomNumber = Math.floor(Math.random() * 6);
+            if(randomNumber == 0) message.channel.send(`Hello ${message.member}`);
+            if(randomNumber == 1) message.channel.send(`Hi ${message.member}`);
+            if(randomNumber == 2) message.channel.send(`Hey ${message.member}`);
+            if(randomNumber == 3) message.channel.send(`Howdy ${message.member}`);
+            if(randomNumber == 4) message.channel.send(`Hola ${message.member} mi amigo`);
+            if(randomNumber == 5) message.channel.send(`Bonjour ${message.member}`);
+          }
       }
 });
 
