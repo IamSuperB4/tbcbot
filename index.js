@@ -207,6 +207,33 @@ bot.on('message', message => {
             if(randomNumber == 3) message.channel.send(`I'll always be your friend ${message.member}!`);
             if(randomNumber == 4) message.channel.send(`You don't need to worry about that ${message.member}!`);
           }
+          
+          if(message.content.includes("Best")
+          && message.content.includes("clan")
+          || message.content.includes("best")
+          && message.content.includes("clan")) {
+            let randomNumber = Math.floor(Math.random() * 4);
+            if(randomNumber == 0) message.channel.send(`The Bloons Academy ${message.member}!`);
+            if(randomNumber == 1) message.channel.send(`The Bloons Remastered ${message.member}!`);
+            if(randomNumber == 2) message.channel.send(`The Bloons Masters ${message.member}!`);
+            if(randomNumber == 3) message.channel.send(`All the TBC clans! How could I choose ${message.member}!`);
+          }
+          
+          if(message.content.includes("Best")
+          && message.content.includes("leader")
+          || message.content.includes("best")
+          && message.content.includes("leader")
+          || message.content.includes("best")
+          && message.content.includes("Leader")
+          || message.content.includes("Best")
+          && message.content.includes("Leader")) {
+            let randomNumber = Math.floor(Math.random() * 5);
+            if(randomNumber == 0) message.channel.send(`IamSuperB4 without a doubt ${message.member}!`);
+            if(randomNumber == 1) message.channel.send(`I'd have to say it's IamSuperB4 ${message.member}!`);
+            if(randomNumber == 2) message.channel.send(`You know who it is! It's IamSuperB4 ${message.member}!`);
+            if(randomNumber == 3) message.channel.send(`IamSuperB4 ${message.member}!`);
+            if(randomNumber == 4) message.channel.send(`What kind of a question is that? It's IamSuperB4 ${message.member}!`);
+          }
       }
 });
 
