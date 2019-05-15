@@ -8,7 +8,7 @@ module.exports.run = async (bot, message, args) => {
     let reason = args.join(" ").slice(22);
 
     if(!message.member.hasPermission("KICK_MEMBERS")) 
-        return message.channel.send("You are not allowed to kick in this server");
+        return message.reply("You are not allowed to kick in this server");
 
     else if(message.member.highestRole.comparePositionTo(kickUser.highestRole) <= 0)
         return message.reply("You can only kick people of a lower rank than you");

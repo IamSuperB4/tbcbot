@@ -7,7 +7,7 @@ module.exports.run = async (bot, message, args) => {
 
         let reason = args.join(" ").slice(22);
 
-        if(!message.member.hasPermission("BAN_MEMBERS")) return message.channel.send("You are not allowed to ban in this server");
+        if(!message.member.hasPermission("BAN_MEMBERS")) return message.reply("You are not allowed to ban in this server");
         else if(message.member.highestRole.comparePositionTo(banUser.highestRole) <= 0) return message.reply("You can only ban people of a lower rank than you");
     
 

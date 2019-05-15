@@ -9,7 +9,7 @@ module.exports.run = async (bot, message, args) => {
     if(!message.member.hasPermission("MANAGE_ROLES")) return message.reply("You are not allowed to modify roles in this server");
     else if(message.member.highestRole.comparePositionTo(roleMember.highestRole) <= 0) return message.reply("You can only modify roles of people of a lower rank than you");
 
-    let role = args.join(" ").slice(22);
+    let role = args.join(" ").slice(23);
     if(!role) 
         return message.reply("Please specify role");
 
@@ -22,7 +22,7 @@ module.exports.run = async (bot, message, args) => {
     if(!roleMember.roles.has(guildRole.id))
         return message.reply(`They don't have the ${guildRole.name} role`);
 
-    await(roleMember.removeRole(guildRole.id));
+    roleMember.removeRole(guildRole.id);
     
     message.channel.send(`The ${guildRole.name} role has been revoked from ${roleMember}`);
     

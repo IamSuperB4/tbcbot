@@ -11,7 +11,10 @@ module.exports.run = async (bot, message, args) => {
 
     let reason = args.join(" ").slice(22);
 
-    if(!message.member.hasPermission("KICK_MEMBERS")) return message.channel.send("You are not allowed to cage in this server");
+    
+    if(reason == "") return message.reply("Please state a reason for warning (Ex: !warn @user reason)")
+
+    if(!message.member.hasPermission("KICK_MEMBERS")) return message.reply("You are not allowed to cage in this server");
     else if(message.member.highestRole.comparePositionTo(selectedMember.highestRole) <= 0) return message.reply("You can only cage people of a lower rank than you");
 
     roleArray = new Array();
@@ -43,27 +46,27 @@ module.exports.run = async (bot, message, args) => {
             if(err) log(err);
         });
 
-        let guildRole = message.guild.roles.find('name', "muted");
+        let guildRole = message.guild.roles.find('name', "Penalty box");
         selectedMember.addRole(guildRole.id);
 
+        let botIcon = bot.user.displayAvatarURL;
+
+        let messageEmbed = new Discord.RichEmbed()
+        .setDescription("Caged")
+        .setAuthor(message.author.username)
+        .setColor("#ff0000")
+        .setThumbnail(botIcon)
+        .addField("Caged user", selectedMember)
+        .addField("Caged in", message.channel)
+        .addField("Reason", reason);
+    
+        let logChannel = message.guild.channels.find('name', "moderation-log");
+        if(!logChannel) 
+            return message.channel.send("Couldn't find warn channel");
+    
+        logChannel.send(messageEmbed);
+
     }, 3000);
-
-    let botIcon = bot.user.displayAvatarURL;
-
-    let messageEmbed = new Discord.RichEmbed()
-    .setDescription("Caged")
-    .setAuthor(message.author.username)
-    .setColor("#ff0000")
-    .setThumbnail(botIcon)
-    .addField("Caged user", warnUser)
-    .addField("Caged in", message.channel)
-    .addField("Reason", reason);
-
-    let logChannel = message.guild.channels.find('name', "moderation-log");
-    if(!logChannel) 
-        return message.channel.send("Couldn't find warn channel");
-
-    logChannel.send(messageEmbed);
 }
 
 module.exports.help = {

@@ -10,11 +10,12 @@ module.exports.run = async (bot, message, args) => {
     else if(message.member.highestRole.comparePositionTo(roleMember.highestRole) <= 0) 
         return message.reply("You can only modify roles of people of a lower rank than you");
     
-    let role = args.join(" ").slice(22);
+    let role = args.join(" ").slice(23);
     if(!role) 
         return message.reply("Please specify role");
 
     let guildRole = message.guild.roles.find('name', role);
+    
     if(!guildRole) 
         return message.reply("Invalid role");
 
@@ -23,7 +24,8 @@ module.exports.run = async (bot, message, args) => {
     if(roleMember.roles.has(guildRole.id))
         return message.reply(`They already have the ${guildRole.name} role`);
 
-    await(roleMember.addRole(guildRole.id));
+
+    roleMember.addRole(guildRole.id);
     
     message.channel.send(`${roleMember} has been given the ${guildRole.name} role!`);
 

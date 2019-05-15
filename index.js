@@ -34,8 +34,8 @@ bot.on("ready", async () => {
 bot.on("guildMemberAdd", async member => {
     console.log(`${member.id} joined the server`);
 
-    let welcomeChannel = member.guild.channels.find('name', "welcome");
-    welcomeChannel.send(`${member} has joined the server!`);
+    let welcomeChannel = member.guild.channels.find('name', "newcomer");
+    welcomeChannel.send(`Welcome to The Bloons Citadel ${member}!`);
 
     let guildRole = member.guild.roles.find('name', "muted");
     console.log(guildRole.id);
@@ -46,7 +46,7 @@ bot.on("guildMemberAdd", async member => {
 bot.on("guildMemberRemove", async member => {
     console.log(`${member.id} has left the server`);
 
-    let welcomeChannel = member.guild.channels.find('name', "welcome");
+    let welcomeChannel = member.guild.channels.find('name', "newcomer");
     welcomeChannel.send(`${member} has left the server!`);
 });
 
@@ -94,5 +94,13 @@ bot.on("message", async message => {
     let commandFile = bot.commands.get(cmd.slice(prefix.length));
     if(commandFile) commandFile.run(bot, message, args);
 });
+
+bot.on('message', message => {
+      if(message.content.includes("<@578032411997110292>")) {
+        message.channel.send(`Hello ${message.member}`);
+      }
+});
+
+
 
 bot.login(auth.token);
