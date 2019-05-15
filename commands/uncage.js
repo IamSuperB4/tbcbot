@@ -39,7 +39,7 @@ module.exports.run = async (bot, message, args) => {
     .addField("Uncaged user", warnUser)
     .addField("Reason", reason);
 
-    let logChannel = message.guild.channels.find('name', "bot-test2");
+    let logChannel = message.guild.channels.find('name', "moderation-log");
     if(!logChannel) 
         return message.channel.send("Couldn't find log channel");
 
