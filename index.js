@@ -132,7 +132,7 @@ bot.on('message', message => {
           }
           
           if(message.content.includes("Thank")
-          && message.content.includes("thank")) {
+          || message.content.includes("thank")) {
             let randomNumber = Math.floor(Math.random() * 6);
             if(randomNumber == 0) message.channel.send(`You're welcome ${message.member}!`);
             if(randomNumber == 1) message.channel.send(`No problem ${message.member}`);
