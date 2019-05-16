@@ -346,7 +346,7 @@ bot.on('message', message => {
 
     // Good job
     if(message.content.toLowerCase().includes("right")
-    && message.content.toLowerCase().includes("aren't you"))
+    || message.content.toLowerCase().includes("aren't you"))
     {
       message.channel.send(`Yes ${message.member}`);
     }
