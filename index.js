@@ -315,6 +315,8 @@ bot.on('message', message => {
     // Good job
     if(message.content.toLowerCase().includes("good")
     && message.content.toLowerCase().includes("job")
+    || message.content.toLowerCase().includes("nice")
+    && message.content.toLowerCase().includes("job")
     || message.content.toLowerCase().includes("well")
     && message.content.toLowerCase().includes("done")
     || message.content.toLowerCase().includes("bravo")
