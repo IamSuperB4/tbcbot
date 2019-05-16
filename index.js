@@ -341,7 +341,7 @@ bot.on('message', message => {
     if(message.content.toLowerCase().includes("you")
     && message.content.toLowerCase().includes("special"))
     {
-      message.channel.send(`Goodbye :wave: ${message.member}!`);
+      message.channel.send(`Yes I am :grin: ${message.member}!`);
     }
 
     // I love you
