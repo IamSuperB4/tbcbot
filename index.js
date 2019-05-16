@@ -314,7 +314,11 @@ bot.on('message', message => {
 
     // Good job
     if(message.content.toLowerCase().includes("good")
-    && message.content.toLowerCase().includes("job"))
+    && message.content.toLowerCase().includes("job")
+    || message.content.toLowerCase().includes("well")
+    && message.content.toLowerCase().includes("done")
+    || message.content.toLowerCase().includes("bravo")
+    || message.content.toLowerCase().includes("congrat"))
     {
       message.channel.send(`Thank you :smile: ${message.member}!`);
     }
