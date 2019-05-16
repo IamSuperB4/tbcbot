@@ -245,7 +245,7 @@ bot.on('message', message => {
       if(randomNumber == 3) message.channel.send(`IamSuperB4 :crown: ${message.member}!`);
       if(randomNumber == 4) message.channel.send(`What kind of a question is that? It's IamSuperB4 :crown: ${message.member}!`);
     }
-
+/*
     // Dog picture
     if(message.content.toLowerCase().includes("dog")
     && message.content.toLowerCase().includes("pic")) {
@@ -316,7 +316,7 @@ bot.on('message', message => {
       }
     }
     // End of cat picture
-
+*/
     // Good job
     if(message.content.toLowerCase().includes("good")
     && message.content.toLowerCase().includes("job"))
