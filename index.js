@@ -337,6 +337,13 @@ bot.on('message', message => {
       message.channel.send(`Goodbye :wave: ${message.member}!`);
     }
 
+    // Good job
+    if(message.content.toLowerCase().includes("you")
+    && message.content.toLowerCase().includes("special"))
+    {
+      message.channel.send(`Goodbye :wave: ${message.member}!`);
+    }
+
     // I love you
     if(message.content.toLowerCase().includes("ily")
     || message.content.toLowerCase().includes("i")
