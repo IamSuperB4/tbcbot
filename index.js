@@ -248,7 +248,7 @@ bot.on('message', message => {
 
     // Dog picture
     if(message.content.toLowerCase().includes("dog")
-    && message.content.toLowerCase().includes("pup")) {
+    || message.content.toLowerCase().includes("pup")) {
       //getAPI('https://dog.ceo/api/breeds/image/random', getDogs, true);
       const getData = async url => {
         try {
