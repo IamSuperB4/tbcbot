@@ -5,7 +5,7 @@ const auth = require("./auth.json");
 const Discord = require("discord.js");
 const bot = new Discord.Client({ disableEveryone: true });
 const fs = require("fs");
-const token = process.env.token;
+const token ="NTc4MDMyNDExOTk3MTEwMjky.XNw-SQ.HaB8c3qrZnpjdCTmEg_sHE6yCig";//process.env.token;/
 const r2 = require("r2");
 const querystring = require('querystring');
 const CAT_API_URL   = "https://api.thecatapi.com/"
@@ -332,12 +332,6 @@ bot.on('message', message => {
     }
 
     // Good job
-    if(message.content.toLowerCase().includes("bye"))
-    {
-      message.channel.send(`Goodbye :wave: ${message.member}!`);
-    }
-
-    // Good job
     if(message.content.toLowerCase().includes("you")
     && message.content.toLowerCase().includes("special"))
     {
@@ -360,10 +354,25 @@ bot.on('message', message => {
     {
       message.channel.send(`I love you too :heart: ${message.member}!`);
     }
+    
+    // Sad -- hate, 
+    if(message.content.toLowerCase().includes("ily")
+    || message.content.toLowerCase().includes("i")
+    && message.content.toLowerCase().includes("love")
+    && message.content.toLowerCase().includes("you")) 
+    {
+      message.channel.send(`I love you too :heart: ${message.member}!`);
+    }
 
     // Meme
     if(message.content.toLowerCase().includes("meme")) {
       message.channel.send(`I'm still collecting memes :pencil: ${message.member}. Send potential memes to IamSuperB4`);
+    }
+
+    // Good job
+    if(message.content.toLowerCase().includes("bye"))
+    {
+      message.channel.send(`Goodbye :wave: ${message.member}!`);
     }
   }
 });
