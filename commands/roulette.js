@@ -121,11 +121,13 @@ module.exports.run = async (bot, message, args) => {
                 win[i] = "Wins ";
                 winAmount[i] = bets * 1;
             }
-            else if(randomNumber % 2 == 0 && allBets[i].toLowerCase == "even"){
+            else if(randomNumber%2 == 0 && allBets[i].toLowerCase() == "even"
+            && randomNumber > 0) {
                 win[i] = "Wins ";
                 winAmount[i] = bets * 1;
             }
-            else if(randomNumber % 2 == 1 && allBets[i].toLowerCase == "odd"){
+            else if(randomNumber%2 == 1 && allBets[i].toLowerCase() == "odd"
+            && randomNumber > 0){
                 win[i] = "Wins ";
                 winAmount[i] = bets * 1;
             }
@@ -137,6 +139,7 @@ module.exports.run = async (bot, message, args) => {
             else {
                 win[i] = "Loses ";
                 winAmount[i] = bets;
+                 
             }
         }
 
