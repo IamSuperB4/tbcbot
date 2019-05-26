@@ -37,15 +37,11 @@ bot.on("ready", async () => {
 });
 
 bot.on("guildMemberAdd", async member => {
-    console.log(`${member.id} joined the server`);
-
     let welcomeChannel = member.guild.channels.find('name', "newcomer");
     welcomeChannel.send(`Welcome to The Bloons Citadel ${member}!`);
 
-    let guildRole = member.guild.roles.find('name', "muted");
-    console.log(guildRole.id);
-    
-    await(member.addRole(guildRole));
+    let guildRole = member.guild.roles.find('name', "Guest");
+    member.addRole(guildRole.id);
 });
 
 bot.on("guildMemberRemove", async member => {
@@ -100,6 +96,80 @@ bot.on("message", async message => {
     if(commandFile) commandFile.run(bot, message, args);
 });
 
+bot.on('messageDelete', message => {
+  let logChannel = message.guild.channels.find('name', "message-log");
+
+  let profilePic = message.author.displayAvatarURL;
+
+    let messageEmbed = new Discord.RichEmbed()
+    .setDescription("Deleted Message")
+    .setAuthor(message.author.username)
+    .setColor("#ff0000")
+    .setThumbnail(profilePic)
+    .addField("Message Content", message.cleanContent)
+    .addField("Channel", message.channel)
+    .addField("Date/Time", new Date());
+
+  logChannel.send(messageEmbed);
+});
+
+bot.on('messageUpdate', async(oldMessage, newMessage) => {
+  
+  let logChannel = oldMessage.guild.channels.find('name', "message-log");
+
+  let profilePic = oldMessage.author.displayAvatarURL;
+  
+  try {
+    let messageEmbed = new Discord.RichEmbed()
+    .setDescription("Edited Message")
+    .setAuthor(oldMessage.author.username)
+    .setColor("#00FF00")
+    .setThumbnail(profilePic)
+    .addField("Before", oldMessage)
+    .addField("After", newMessage)
+    .addField("Channel", oldMessage.channel)
+    .addField("Date/Time", new Date());
+
+  logChannel.send(messageEmbed);
+  } 
+  catch (error) {
+    console.log(error);
+    
+  }
+});
+
+bot.on('userUpdate', async(oldUser, newUser) => {
+  console.log(`Old: ${oldUser.username}`);
+  console.log(`New: ${newUser.username}`);
+
+  let oldUsername = oldUser.username;
+  let newUsername = newUser.username;
+  if(oldUsername != newUsername) {
+    let logChannel = bot.channels.get("582302519426940952");
+    
+      let profilePic = newUser.displayAvatarURL;
+      
+      try {
+        let messageEmbed = new Discord.RichEmbed()
+        .setDescription("Name Change")
+        .setAuthor(oldUser.username)
+        .setColor("#00FF00")
+        .setThumbnail(profilePic)
+        .addField("Before", oldUsername)
+        .addField("After", newUsername)
+        .addField("Date/Time", new Date());
+    
+      logChannel.send(messageEmbed);
+      } 
+      catch (error) {
+        console.log(error);
+        
+      }
+  }
+});
+    
+
+// chat boat
 bot.on('message', message => {
   // Ping Test Bot
   if(message.content.includes("<@578032411997110292>")) {
@@ -111,6 +181,7 @@ bot.on('message', message => {
     || message.content.toLowerCase().includes("howdy")
     || message.content.toLowerCase().includes("hey")
     || message.content.toLowerCase().includes("hola")
+    || message.content.toLowerCase().includes("bonjour")
     || message.content.toLowerCase().includes("zdravstvuyte")
     || message.content.toLowerCase().includes("nǐ hǎo")
     || message.content.toLowerCase().includes("ni hao")

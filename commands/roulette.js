@@ -18,24 +18,9 @@ module.exports.run = async (bot, message, args) => {
         });
 
         memberFunds = bank[selectedMember.id].money;
-        
-        if(message.content.split("!roulette ")[1].toLowerCase() === "add money") {
-            if(memberFunds != 0) return message.reply(`You can only get more funds when you run out of money. You have $${memberFunds}`);
-            else {
-                bank[selectedMember.id].money = 1000;
-                fs.writeFile("./bank.json", JSON.stringify(bank), (err) => {
-                    if(err) log(err);
-                });
-                memberFunds = bank[selectedMember.id].money;
-                return message.reply(`$1000 has been added to your account! You have $${memberFunds}`)
-            }
-        }
-        else if(message.content.split("!roulette ")[1].toLowerCase() === "balance") {
-            return message.reply(`You have $${memberFunds}`)
-        }
 
         if(memberFunds == 0) {
-            return message.reply("You have 0 funds, please ask for more by replying with:\n\t!roulette add money\n to add $1000 to your account");
+            return message.reply("You have 0 funds, please ask for more by replying with:\n\t!addmoney\n to add $1000 to your account");
         }
 
         let bet = args[1];
@@ -54,6 +39,7 @@ module.exports.run = async (bot, message, args) => {
 
         if(randomNumber == -1 || randomNumber == 0) {
             color = "Green";
+            if(randomNumber == -1) randomNumber = 0;
         }
         else if(randomNumber > 0 && randomNumber < 11
         || randomNumber > 18 && randomNumber < 29) {
@@ -149,6 +135,11 @@ module.exports.run = async (bot, message, args) => {
             else if(win[i] == "Loses ") totalWins -= winAmount[i];
         }
         memberFunds += totalWins;
+
+        let winLossText = "Winnings";
+        if(totalWins < 0) {
+            winLossText = "Losses";
+        }
         
         bank[selectedMember.id].money = memberFunds;
         
@@ -169,73 +160,9 @@ module.exports.run = async (bot, message, args) => {
         }
         allBetsText += "**" + allBets[allBets.length - 1] + "** " + win[win.length - 1] + "$" + winAmount[winAmount.length - 1];
 
-        return message.reply(`\n:slot_machine: Bet: **${bet}**\n\tRoll: **${color} ${randomNumber}**\n${allBetsText}\n\t**Total Winnings**: $${totalWins}\n\tYou're new balance is **$${memberFunds}**`);
+        return message.reply(`\n:slot_machine: Bet: **${bet}**\n\tRoll: **${color} ${randomNumber}**\n${allBetsText}\n\t**Total ${winLossText}**: $${totalWins}\n\tYou're new balance is **$${memberFunds}**`);
 
     }
-
-
-    
-
-
-    
-
-    /*
-    if(reason == "") return message.reply("Please state a reason for warning (Ex: !warn @user reason)")
-
-    if(!message.member.hasPermission("KICK_MEMBERS")) return message.reply("You are not allowed to cage in this server");
-    else if(message.member.highestRole.comparePositionTo(selectedMember.highestRole) <= 0) return message.reply("You can only cage people of a lower rank than you");
-
-    roleArray = new Array();
-
-    for(let i = 1; i <= selectedMember.roles.array().length-1; i++) {
-        roleArray[i-1] = selectedMember.roles.array()[i].name;
-
-        let guildRole = message.guild.roles.find('name', roleArray[i-1]);
-        
-
-        setTimeout(function () {
-            selectedMember.removeRole(guildRole.id);
-            message.channel.send(roleArray[i-1]  + " removed");
-        }, 250);
-    }
-
-    setTimeout(function () {
-        message.channel.send("Penalty box added. Successful Caging!");
-
-
-        if(!cagedRoles[selectedMember.id]) 
-            cagedRoles[selectedMember.id] = {
-                roles: roleArray
-             };
-
-        cagedRoles[selectedMember.id].roles = roleArray;
-
-        fs.writeFile("./cagedroles.json", JSON.stringify(cagedRoles), (err) => {
-            if(err) log(err);
-        });
-
-        let guildRole = message.guild.roles.find('name', "Penalty box");
-        selectedMember.addRole(guildRole.id);
-
-        let botIcon = bot.user.displayAvatarURL;
-
-        let messageEmbed = new Discord.RichEmbed()
-        .setDescription("Caged")
-        .setAuthor(message.author.username)
-        .setColor("#ff0000")
-        .setThumbnail(botIcon)
-        .addField("Caged user", selectedMember)
-        .addField("Caged in", message.channel)
-        .addField("Reason", reason);
-    
-        let logChannel = message.guild.channels.find('name', "moderation-log");
-        if(!logChannel) 
-            return message.channel.send("Couldn't find warn channel");
-    
-        logChannel.send(messageEmbed);
-
-    }, 3000);
-    */
 }
 
 module.exports.help = {
