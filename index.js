@@ -5,7 +5,7 @@ const auth = require("./auth.json");
 const Discord = require("discord.js");
 const bot = new Discord.Client({ disableEveryone: true });
 const fs = require("fs");
-const token ="NTc4MDMyNDExOTk3MTEwMjky.XNw-SQ.HaB8c3qrZnpjdCTmEg_sHE6yCig";//process.env.token;/
+const token = process.env.token;
 const r2 = require("r2");
 const querystring = require('querystring');
 const CAT_API_URL   = "https://api.thecatapi.com/"
@@ -144,27 +144,53 @@ bot.on('userUpdate', async(oldUser, newUser) => {
 
   let oldUsername = oldUser.username;
   let newUsername = newUser.username;
+
   if(oldUsername != newUsername) {
     let logChannel = bot.channels.get("582302519426940952");
+    let profilePic = newUser.displayAvatarURL;
     
-      let profilePic = newUser.displayAvatarURL;
+    try {
+      let messageEmbed = new Discord.RichEmbed()
+      .setDescription("Name Change")
+      .setAuthor(oldUser.username)
+      .setColor("#00FF00")
+      .setThumbnail(profilePic)
+      .addField("Before", oldUsername)
+      .addField("After", newUsername)
+      .addField("Date/Time", new Date());
+  
+    logChannel.send(messageEmbed);
+    } 
+    catch (error) {
+      console.log(error);
       
-      try {
-        let messageEmbed = new Discord.RichEmbed()
-        .setDescription("Name Change")
-        .setAuthor(oldUser.username)
-        .setColor("#00FF00")
-        .setThumbnail(profilePic)
-        .addField("Before", oldUsername)
-        .addField("After", newUsername)
-        .addField("Date/Time", new Date());
+    }
+  }
+  else {
+    let logChannel = bot.channels.get("582302519426940952");
+    let oldProfilePic = oldUser.displayAvatarURL;
+    let newProfilePic = newUser.displayAvatarURL;
     
+    try {
+      let messageEmbed = new Discord.RichEmbed()
+      .setDescription("Profile Picture Change (Before)")
+      .setAuthor(oldUser.username)
+      .setColor("#00FF00")
+      .setThumbnail(oldProfilePic)
+      .addField("Before", "Shown on right of this message")
+
+      let messageEmbed2 = new Discord.RichEmbed()
+      .setColor("#00FF00")
+      .setThumbnail(newProfilePic)
+      .addField("After", "Shown on right of this message")
+      .addField("Date/Time", new Date());
+
       logChannel.send(messageEmbed);
-      } 
-      catch (error) {
-        console.log(error);
-        
-      }
+      logChannel.send(messageEmbed2);
+    } 
+    catch (error) {
+      console.log(error);
+    }
   }
 });
     
@@ -173,6 +199,10 @@ bot.on('userUpdate', async(oldUser, newUser) => {
 bot.on('message', message => {
   // Ping Test Bot
   if(message.content.includes("<@578032411997110292>")) {
+
+    if(message.content.toLowerCase().includes("test")) {
+      
+    }
 
     // Hello
     if(message.content.toLowerCase().includes("hello")
