@@ -1,26 +1,26 @@
 const Discord = require("discord.js");
 const fs = require("fs");
 let bank = JSON.parse(fs.readFileSync("./bank.json", "utf8"));
-let blackjack = JSON.parse(fs.readFileSync("./blackjack.json", "utf8"));
 
 module.exports.run = async (bot, message, args) => {
     
-    console.log("ran1");
     if(message.channel.name == "roulette" || message.channel.name == "blackjack") {
         
         let selectedMember = message.member;
 
-        if(!bank[selectedMember.id]) 
+        if(!bank[selectedMember.id])  {
             bank[selectedMember.id] = {
                 money: 0
             };
 
-        fs.writeFile("./bank.json", JSON.stringify(bank), (err) => {
-            if(err) log(err);
-        });
+            fs.writeFile("./bank.json", JSON.stringify(bank), (err) => {
+                if(err) log(err);
+            });
+        }
+
 
         memberFunds = bank[selectedMember.id].money;
-        if(memberFunds != 0) return message.reply(`No more free money for you! Wait until you need it. You have $${memberFunds}`);
+        if(memberFunds != 0 || !memberFunds) return message.reply(`No more free money for you! Wait until you need it. You have $${memberFunds}`);
         else {
             bank[selectedMember.id].money = 1000;
             fs.writeFile("./bank.json", JSON.stringify(bank), (err) => {

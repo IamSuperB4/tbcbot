@@ -7,7 +7,7 @@ const bot = new Discord.Client({ disableEveryone: true });
 const fs = require("fs");
 const token = process.env.token;
 const r2 = require("r2");
-const querystring = require('querystring');
+const querystring = require('querystrizng');
 const CAT_API_URL   = "https://api.thecatapi.com/"
 const catAPIkey = '19308d7f-a90a-4099-b497-dbd7b2d8117e';
 
@@ -114,27 +114,27 @@ bot.on('messageDelete', message => {
 });
 
 bot.on('messageUpdate', async(oldMessage, newMessage) => {
+  if(oldMessage.content != newMessage.content) {
+    let logChannel = oldMessage.guild.channels.find('name', "message-log");
   
-  let logChannel = oldMessage.guild.channels.find('name', "message-log");
-
-  let profilePic = oldMessage.author.displayAvatarURL;
-  
-  try {
-    let messageEmbed = new Discord.RichEmbed()
-    .setDescription("Edited Message")
-    .setAuthor(oldMessage.author.username)
-    .setColor("#00FF00")
-    .setThumbnail(profilePic)
-    .addField("Before", oldMessage)
-    .addField("After", newMessage)
-    .addField("Channel", oldMessage.channel)
-    .addField("Date/Time", new Date());
-
-  logChannel.send(messageEmbed);
-  } 
-  catch (error) {
-    console.log(error);
+    let profilePic = oldMessage.author.displayAvatarURL;
     
+    try {
+      let messageEmbed = new Discord.RichEmbed()
+      .setDescription("Edited Message")
+      .setAuthor(oldMessage.author.username)
+      .setColor("#00FF00")
+      .setThumbnail(profilePic)
+      .addField("Before", oldMessage)
+      .addField("After", newMessage)
+      .addField("Channel", oldMessage.channel)
+      .addField("Date/Time", new Date());
+  
+      logChannel.send(messageEmbed);
+    } 
+    catch (error) {
+      console.log(error);
+    }
   }
 });
 
@@ -146,7 +146,8 @@ bot.on('userUpdate', async(oldUser, newUser) => {
   let newUsername = newUser.username;
 
   if(oldUsername != newUsername) {
-    let logChannel = bot.channels.get("582302519426940952");
+    let logChannel = bot.channels.get("582470509740949514");
+    
     let profilePic = newUser.displayAvatarURL;
     
     try {
@@ -163,11 +164,10 @@ bot.on('userUpdate', async(oldUser, newUser) => {
     } 
     catch (error) {
       console.log(error);
-      
     }
   }
   else {
-    let logChannel = bot.channels.get("582302519426940952");
+    let logChannel = bot.channels.get("582470509740949514");
     let oldProfilePic = oldUser.displayAvatarURL;
     let newProfilePic = newUser.displayAvatarURL;
     
@@ -199,9 +199,9 @@ bot.on('userUpdate', async(oldUser, newUser) => {
 bot.on('message', message => {
   // Ping Test Bot
   if(message.content.includes("<@578032411997110292>")) {
+    
 
     if(message.content.toLowerCase().includes("test")) {
-      
     }
 
     // Hello
@@ -237,7 +237,7 @@ bot.on('message', message => {
       if(randomNumber == 10) message.channel.send(`Olá :wave: ${message.member}`);
       if(randomNumber == 11) message.channel.send(`Anyoung :wave: ${message.member}`);
       if(randomNumber == 12) message.channel.send(`Ahlan :wave: ${message.member}`);
-      if(randomNumber == 13) message.channel.send(`Greetings, my good sir ${message.member}!`);
+      if(randomNumber == 13) message.channel.send(`Greetings, my good sir ${message.member}!`);;
     }
 
     // How is your day

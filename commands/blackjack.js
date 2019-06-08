@@ -15,6 +15,9 @@ module.exports.run = async (bot, message, args) => {
                     money: 0
                 };
     
+            fs.truncate("./bank.json", 0, (err) => {
+                if(err) log(err);
+            });
             fs.writeFile("./bank.json", JSON.stringify(bank), (err) => {
                 if(err) log(err);
             });
@@ -23,7 +26,7 @@ module.exports.run = async (bot, message, args) => {
     
             // no money
             if(memberFunds == 0) {
-                return message.reply("You have 0 funds, please ask for more by replying with:\n\t!add money\n to add $1000 to your account");
+                return message.reply("You have 0 funds, please ask for more by replying with:\n\t!addmoney\n to add $1000 to your account");
             }
             
             let suits = ["hearts", "diamonds", "spades", "clubs"];
@@ -34,13 +37,13 @@ module.exports.run = async (bot, message, args) => {
                 // if user has enough to make that bet
                 let bet = message.content.split(" bet ")[1];
                 if(bet == undefined) {
-                    return message.reply(`Please place a bet. You have $${memberFunds}`);
+                    return message.reply(`Please place a bet by typing:\n\t!blackjack new game bet [bet amount]\nYou have $${memberFunds}`);
                 }
                 if(bet > memberFunds) {
                     return message.reply(`You don't have the money for that bet. You only have $${memberFunds}`);
                 }
     
-                // get member's money from JSON, if new user, add user with $0
+                // set new game
                 blackjack[selectedMember.id] = {
                     dealerSuits: [],
                     dealerCards: [],
@@ -62,18 +65,31 @@ module.exports.run = async (bot, message, args) => {
                 playerTurn("false");
             }
             else if(args[0].toLowerCase() === "hit") {
-                if(!blackjack[selectedMember.id].dealerSuits == []) 
+                if(blackjack[selectedMember.id].playerCards.length != 0) 
                 {
                     return playerTurn("true");
                 }
-                return message.reply("You have to start a new game first by saying:\n!blackjack new game");
+                return message.reply("You have to start a new game first by saying:\n\t!blackjack new game bet [bet amount]");
             }
+
             else if(args[0].toLowerCase() === "stand") {
-                if(!blackjack[selectedMember.id].dealerSuits == []) 
+                if(blackjack[selectedMember.id].playerCards.length != 0) 
                 {
                     return dealerTurn("true");
                 }
-                return message.reply("You have to start a new game first by saying:\n!blackjack new game");
+                return message.reply("You have to start a new game first by saying:\n\t!blackjack new game bet [bet amount]");
+            }
+
+            else if(args[0].toLowerCase().includes("double")) {
+                if(blackjack[selectedMember.id].playerCards.length != 0) 
+                {
+                    return playerTurn("double");
+                }
+                return message.reply("You have to start a new game first by saying:\n\t!blackjack new game bet [bet amount]");
+            }
+
+            else {
+                return message.reply("Incorrect blackjack call");
             }
     
             function playerTurn(hit) {
@@ -100,12 +116,11 @@ module.exports.run = async (bot, message, args) => {
                     let number = cardToNumber(playerCards[i]);
                     playerTotal += number;
     
-                    if(playerCards[i] == "A" && playerTotal > 21) {
-                        playerTotal -= 10;
-                        blackjack[selectedMember.id].playerAces--;
-                    }
-    
                     playerCardsText += playerCards[i] + ":" + playerSuits[i] + ": ";
+                }
+                let aces = blackjack[selectedMember.id].playerAces;
+                while(aces > 0 && playerTotal > 21) {
+                    playerTotal -= 10;
                 }
     
                 // dealer card
@@ -117,20 +132,55 @@ module.exports.run = async (bot, message, args) => {
                 if(playerTotal > 21) {
                     bust = "**Bust**";
                 }
-    
-                if(!bust.includes("Bust") || playerTotal != 21) {
+                if(playerTotal == 21) {
+                    if(hit == "false") {
+                        bust = "**Blackjack!**";
+                    }
+                    else {
+                        bust = "**21!**";
+                    }
+                }
+                
+                if(!bust.includes("Bust") && playerTotal != 21 && hit != "double") {
                     return message.reply(`\n:slot_machine: Bet: **${bet}**\n\tDealer: **${dealerCardsText}**\tTotal: ${dealerTotal}\n\tPlayer:**${playerCardsText}**\tTotal: ${playerTotal} \t${bust}`);
                 }
-    
+
+                let text = `\n:slot_machine: Bet: **${bet}**\n\tDealer: **${dealerCardsText}**\tTotal: ${dealerTotal}\n\tPlayer:**${playerCardsText}**\tTotal: ${playerTotal} \t${bust}`;
+                if(hit == "double") {
+                    
+                    blackjack[selectedMember.id].betAmount = blackjack[selectedMember.id].betAmount*2;
+                    bet = blackjack[selectedMember.id].betAmount;
+
+                    fs.writeFile("./blackjack.json", JSON.stringify(blackjack), (err) => {
+                        if(err) log(err);
+                    });
+
+                    message.reply(text);
+
+                    if(hit == "double" && playerTotal <= 21) {
+                        return dealerTurn("true");
+                    }
+                }
+                if(playerTotal == 21 && !bust.toLowerCase().includes("blackjack")) {
+                    return dealerTurn("true");
+                }
                 newDealerCard();
-                
+                dealerCardsText = "";
+                dealerTotal = 0;
                 // dealer card
-                for(let i = 0; i < playerCards.length; i++) {
+                for(let i = 0; i < dealerCards.length; i++) {
                     dealerCardsText += dealerCards[i] + ":" + dealerSuits[i] + ": ";
-                    dealerTotal = cardToNumber(dealerCards[i]);
+                    dealerTotal += cardToNumber(dealerCards[i]);
+                }
+                text = `\n:slot_machine: Bet: **${bet}**\n\tDealer: **${dealerCardsText}**\tTotal: ${dealerTotal}\n\tPlayer:**${playerCardsText}**\tTotal: ${playerTotal} \t${bust}`;
+                if(playerTotal > 21) {
+                    return gameOver(text, "loss");
+                }
+                else if(bust.toLowerCase.includes("blackjack")) {
+                    return gameOver(text, "blackjack");
                 }
                 
-                return message.reply(`\n:slot_machine: Bet: **${bet}**\n\tDealer: **${dealerCardsText}**\tTotal: ${dealerTotal}\n\tPlayer:**${playerCardsText}**\tTotal: ${playerTotal} \t${bust}`);
+                return message.reply(text);
                 
             }
     
@@ -151,15 +201,10 @@ module.exports.run = async (bot, message, args) => {
     
                 blackjack[selectedMember.id].playerSuits = playerSuits;
                 blackjack[selectedMember.id].playerCards = playerCards;
-    
-                console.log(blackjack[selectedMember.id]);
-                
-    
+        
                 fs.truncate("./blackjack.json", 0, (err) => {
                     if(err) log(err);
-                });
-        
-                fs.writeFile("./blackjack.json", JSON.stringify(blackjack), (err) => {
+                });fs.writeFile("./blackjack.json", JSON.stringify(blackjack), (err) => {
                     if(err) log(err);
                 });
                 
@@ -193,24 +238,23 @@ module.exports.run = async (bot, message, args) => {
                         let number = cardToNumber(playerCards[i]);
                         playerTotal += number;
         
-                        if(playerCards[i] == "A" && playerTotal > 21) {
+                        let aces = blackjack[selectedMember.id].playerAces;
+                        while(aces > 0 && playerTotal > 21) {
                             playerTotal -= 10;
-                            blackjack[selectedMember.id].playerAces--;
                         }
         
                         playerCardsText += playerCards[i] + ":" + playerSuits[i] + ": ";
                     }
         
                     // dealer card
-                    for(let i = 0; i < dealerCards[i]; i++) {
+                    for(let i = 0; i < dealerCards.length; i++) {
                         dealerTotal += cardToNumber(dealerCards[i]);
         
-                        if(dealerCards[i] == "A" && dealTotal > 21) {
+                        let aces = blackjack[selectedMember.id].dealerAces;
+                        while(aces > 0 && dealerTotal > 21) {
                             dealerTotal -= 10;
-                            blackjack[selectedMember.id].dealerAces--;
                         }
-                       dealerCardsText += dealerCards[i] + ":" + dealerSuits[i] + ": ";
-                       console.log(dealerCardsText);
+                        dealerCardsText += dealerCards[i] + ":" + dealerSuits[i] + ": ";
                        
                     }
                     
@@ -218,13 +262,26 @@ module.exports.run = async (bot, message, args) => {
                         bust = "**Bust**";
                     }
         
-                    if(!bust.includes("Bust")) {
-                        message.reply(`\n:slot_machine: Bet: **${bet}**\n\tDealer: **${dealerCardsText}**\tTotal: ${dealerTotal}\n\t${bust}\n\tPlayer:**${playerCardsText}**\tTotal: ${playerTotal}`);
+                    if(!dealerTotal < 17 && blackjack[selectedMember.id].dealerAces <= 0) {
+                        
+                        message.reply(`Dealer: **${dealerCardsText}**\tTotal: ${dealerTotal}`);
                     }
                     
-                } while(dealerTotal < 17 && blackjack[selectedMember.id].dealerAces == 0)
+                } while(dealerTotal < 17 && blackjack[selectedMember.id].dealerAces <= 0)
                 
-                return message.reply(`\n:slot_machine: Bet: **${bet}**\n\tDealer: **${dealerCardsText}**\tTotal: ${dealerTotal}\n\tPlayer:**${playerCardsText}**\tTotal: ${playerTotal}`);
+                let text = `\n:slot_machine: Bet: **${bet}**\n\tDealer: **${dealerCardsText}**\tTotal: ${dealerTotal}  ${bust}\n\n\tPlayer:**${playerCardsText}**\tTotal: ${playerTotal}`;
+                if(dealerTotal > 21) {
+                    return gameOver(text, "win");
+                }
+                else if(playerTotal > dealerTotal) {
+                    return gameOver(text, "win");
+                }
+                else if(playerTotal < dealerTotal) {
+                    return gameOver(text, "loss");
+                }
+                else {
+                    return gameOver(text, "push");
+                }
             }
     
             function newDealerCard() {
@@ -244,14 +301,63 @@ module.exports.run = async (bot, message, args) => {
     
                 blackjack[selectedMember.id].dealerSuits = dealerSuits;
                 blackjack[selectedMember.id].dealerCards = dealerCards;
-    
+
                 fs.truncate("./blackjack.json", 0, (err) => {
                     if(err) log(err);
                 });
-        
                 fs.writeFile("./blackjack.json", JSON.stringify(blackjack), (err) => {
                     if(err) log(err);
                 });
+                
+            }
+
+            function gameOver(text, win) {
+                let winText = text;
+                let bet = blackjack[selectedMember.id].betAmount;
+
+                if(win == "win") {
+                    winText += `\nYou win! Winnings: **${bet}**`;
+                    bank[selectedMember.id].money = +bet + +bank[selectedMember.id].money;
+                }
+                else if(win == "loss") {
+                    winText += `\nDealer wins. Lost: **${bet}**`;
+                    bank[selectedMember.id].money = +bank[selectedMember.id].money - +bet;
+                }
+                else if(win == "push") {
+                    winText += `\nPush. You get your **$${bet}** back`;
+                }
+                else if(win == "blackjack") {
+                    winText += `\nYou win! Winnings: **${bet*1.5}**`;
+                    bank[selectedMember.id].money = (+bet*1.5) + +bank[selectedMember.id].money;
+                }
+
+                winText += `\nYour new balance is **$${bank[selectedMember.id].money}**`;
+
+                // reset game
+                blackjack[selectedMember.id] = {
+                    dealerSuits: [],
+                    dealerCards: [],
+                    playerSuits: [],
+                    playerCards: [],
+                    dealerAces: 0,
+                    playerAces: 0,
+                    betAmount: 0
+                };
+
+                fs.truncate("./blackjack.json", 0, (err) => {
+                    if(err) log(err);
+                });
+                fs.writeFile("./blackjack.json", JSON.stringify(blackjack), (err) => {
+                    if(err) log(err);
+                });
+                fs.truncate("./bank.json", 0, (err) => {
+                    if(err) log(err);
+                });
+                fs.writeFile("./bank.json", JSON.stringify(bank), (err) => {
+                    if(err) log(err);
+                });
+
+                return message.reply(winText)
             }
     
             function numberToCard(number) {
@@ -260,10 +366,10 @@ module.exports.run = async (bot, message, args) => {
                     card = "J";
                 }
                 else if(number == 12) {
-                    card = "J";
+                    card = "Q";
                 }
                 else if(number == 13) {
-                    card = "Q";
+                    card = "K";
                 }
                 else if(number == 14) {
                     card = "A";
