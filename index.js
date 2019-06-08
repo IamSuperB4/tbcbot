@@ -7,7 +7,7 @@ const bot = new Discord.Client({ disableEveryone: true });
 const fs = require("fs");
 const token = process.env.token;
 const r2 = require("r2");
-const querystring = require('querystrizng');
+const querystring = require('querystring');
 const CAT_API_URL   = "https://api.thecatapi.com/"
 const catAPIkey = '19308d7f-a90a-4099-b497-dbd7b2d8117e';
 
