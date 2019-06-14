@@ -10,21 +10,21 @@ module.exports.run = async (bot, message, args) => {
             let selectedMember = message.member;
     
             // get member's money from JSON, if new user, add user with $0
-            if(!bank[selectedMember.id]) 
+            if(!bank[selectedMember.id]) {
                 bank[selectedMember.id] = {
                     money: 0
                 };
     
-            fs.truncate("./bank.json", 0, (err) => {
-                if(err) log(err);
-            });
-            fs.writeFile("./bank.json", JSON.stringify(bank), (err) => {
-                if(err) log(err);
-            });
+                fs.writeFile("./bank.json", JSON.stringify(bank), (err) => {
+                    if(err) log(err);
+                });
+            }
     
             memberFunds = bank[selectedMember.id].money;
     
             // no money
+            console.log(memberFunds);
+            
             if(memberFunds == 0) {
                 return message.reply("You have 0 funds, please ask for more by replying with:\n\t!addmoney\n to add $1000 to your account");
             }
@@ -202,9 +202,7 @@ module.exports.run = async (bot, message, args) => {
                 blackjack[selectedMember.id].playerSuits = playerSuits;
                 blackjack[selectedMember.id].playerCards = playerCards;
         
-                fs.truncate("./blackjack.json", 0, (err) => {
-                    if(err) log(err);
-                });fs.writeFile("./blackjack.json", JSON.stringify(blackjack), (err) => {
+                fs.writeFile("./blackjack.json", JSON.stringify(blackjack), (err) => {
                     if(err) log(err);
                 });
                 
@@ -302,9 +300,6 @@ module.exports.run = async (bot, message, args) => {
                 blackjack[selectedMember.id].dealerSuits = dealerSuits;
                 blackjack[selectedMember.id].dealerCards = dealerCards;
 
-                fs.truncate("./blackjack.json", 0, (err) => {
-                    if(err) log(err);
-                });
                 fs.writeFile("./blackjack.json", JSON.stringify(blackjack), (err) => {
                     if(err) log(err);
                 });
@@ -344,15 +339,12 @@ module.exports.run = async (bot, message, args) => {
                     betAmount: 0
                 };
 
-                fs.truncate("./blackjack.json", 0, (err) => {
-                    if(err) log(err);
-                });
                 fs.writeFile("./blackjack.json", JSON.stringify(blackjack), (err) => {
                     if(err) log(err);
                 });
-                fs.truncate("./bank.json", 0, (err) => {
-                    if(err) log(err);
-                });
+
+                
+                //console.log(bank);
                 fs.writeFile("./bank.json", JSON.stringify(bank), (err) => {
                     if(err) log(err);
                 });

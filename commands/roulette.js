@@ -8,12 +8,14 @@ module.exports.run = async (bot, message, args) => {
     
         let selectedMember = message.member;
 
-        console.log(bank[selectedMember.id]);
+        //console.log(bank[selectedMember.id]);
         if(!bank[selectedMember.id]) {
             bank[selectedMember.id] = {
                 money: 0
             };
         
+           // console.log(bank);
+            
             fs.writeFile("./bank.json", JSON.stringify(bank), (err) => {
                 if(err) log(err);
             });
@@ -145,6 +147,9 @@ module.exports.run = async (bot, message, args) => {
         }
         
         bank[selectedMember.id].money = memberFunds;
+
+        
+        //console.log(bank);
 
         fs.writeFile("./bank.json", JSON.stringify(bank), (err) => {
             if(err) log(err);
