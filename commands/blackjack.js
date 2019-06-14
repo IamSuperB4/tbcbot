@@ -1,9 +1,10 @@
 const Discord = require("discord.js");
 const fs = require("fs");
-let bank = JSON.parse(fs.readFileSync("./bank.json", "utf8"));
-let blackjack = JSON.parse(fs.readFileSync("./blackjack.json", "utf8"));
 
 module.exports.run = async (bot, message, args) => {
+    let bank = JSON.parse(fs.readFileSync("./bank.json", "utf8"));
+    let blackjack = JSON.parse(fs.readFileSync("./blackjack.json", "utf8"));
+
     try {
         if(message.channel.name == "blackjack") {
     
@@ -21,9 +22,6 @@ module.exports.run = async (bot, message, args) => {
             }
     
             memberFunds = bank[selectedMember.id].money;
-    
-            // no money
-            console.log(memberFunds);
             
             if(memberFunds == 0) {
                 return message.reply("You have 0 funds, please ask for more by replying with:\n\t!addmoney\n to add $1000 to your account");
@@ -53,9 +51,7 @@ module.exports.run = async (bot, message, args) => {
                     playerAces: 0,
                     betAmount: 0
                 };
-                fs.truncate("./blackjack.json", 0, (err) => {
-                    if(err) log(err);
-                });
+                
                 fs.writeFile("./blackjack.json", JSON.stringify(blackjack), (err) => {
                     if(err) log(err);
                 });
@@ -94,93 +90,102 @@ module.exports.run = async (bot, message, args) => {
     
             function playerTurn(hit) {
                 
-                newPlayerCard();
+                setTimeout(newPlayerCard, 100);
                 if(hit == "false")  {
-                    newPlayerCard();
-                    dealerTurn("false");
-                }
-    
-                let bust = "";
-                let dealerSuits = blackjack[selectedMember.id].dealerSuits;
-                let dealerCards = blackjack[selectedMember.id].dealerCards;
-                let playerSuits = blackjack[selectedMember.id].playerSuits;
-                let playerCards = blackjack[selectedMember.id].playerCards;
-                let playerCardsText = "";
-                let dealerCardsText = "";
-                let playerTotal = 0;
-                let dealerTotal = 0;
-                let bet = blackjack[selectedMember.id].betAmount;
-    
-                // player cards
-                for(let i = 0; i < playerCards.length; i++) {
-                    let number = cardToNumber(playerCards[i]);
-                    playerTotal += number;
-    
-                    playerCardsText += playerCards[i] + ":" + playerSuits[i] + ": ";
-                }
-                let aces = blackjack[selectedMember.id].playerAces;
-                while(aces > 0 && playerTotal > 21) {
-                    playerTotal -= 10;
-                }
-    
-                // dealer card
-                for(let i = 0; i < 1; i++) {
-                    dealerCardsText += dealerCards[i] + ":" + dealerSuits[i] + ": ";
-                    dealerTotal = cardToNumber(dealerCards[i]);
-                }
-                
-                if(playerTotal > 21) {
-                    bust = "**Bust**";
-                }
-                if(playerTotal == 21) {
-                    if(hit == "false") {
-                        bust = "**Blackjack!**";
-                    }
-                    else {
-                        bust = "**21!**";
-                    }
-                }
-                
-                if(!bust.includes("Bust") && playerTotal != 21 && hit != "double") {
-                    return message.reply(`\n:slot_machine: Bet: **${bet}**\n\tDealer: **${dealerCardsText}**\tTotal: ${dealerTotal}\n\tPlayer:**${playerCardsText}**\tTotal: ${playerTotal} \t${bust}`);
-                }
-
-                let text = `\n:slot_machine: Bet: **${bet}**\n\tDealer: **${dealerCardsText}**\tTotal: ${dealerTotal}\n\tPlayer:**${playerCardsText}**\tTotal: ${playerTotal} \t${bust}`;
-                if(hit == "double") {
+                    setTimeout(newPlayerCard, 200);
                     
-                    blackjack[selectedMember.id].betAmount = blackjack[selectedMember.id].betAmount*2;
-                    bet = blackjack[selectedMember.id].betAmount;
-
-                    fs.writeFile("./blackjack.json", JSON.stringify(blackjack), (err) => {
-                        if(err) log(err);
-                    });
-
-                    message.reply(text);
-
-                    if(hit == "double" && playerTotal <= 21) {
-                        return dealerTurn("true");
+                    setTimeout(dealerTurn, 300, "false");
+                    
+                }
+                setTimeout(function() {
+                    let bust = "";
+                    let dealerSuits = blackjack[selectedMember.id].dealerSuits;
+                    let dealerCards = blackjack[selectedMember.id].dealerCards;
+                    let playerSuits = blackjack[selectedMember.id].playerSuits;
+                    let playerCards = blackjack[selectedMember.id].playerCards;
+                    let playerCardsText = "";
+                    let dealerCardsText = "";
+                    let playerTotal = 0;
+                    let dealerTotal = 0;
+                    let bet = blackjack[selectedMember.id].betAmount;
+        
+                    // player cards
+                    for(let i = 0; i < playerCards.length; i++) {
+                        let number = cardToNumber(playerCards[i]);
+                        playerTotal += number;
+        
+                        playerCardsText += playerCards[i] + ":" + playerSuits[i] + ": ";
                     }
-                }
-                if(playerTotal == 21 && !bust.toLowerCase().includes("blackjack")) {
-                    return dealerTurn("true");
-                }
-                newDealerCard();
-                dealerCardsText = "";
-                dealerTotal = 0;
-                // dealer card
-                for(let i = 0; i < dealerCards.length; i++) {
-                    dealerCardsText += dealerCards[i] + ":" + dealerSuits[i] + ": ";
-                    dealerTotal += cardToNumber(dealerCards[i]);
-                }
-                text = `\n:slot_machine: Bet: **${bet}**\n\tDealer: **${dealerCardsText}**\tTotal: ${dealerTotal}\n\tPlayer:**${playerCardsText}**\tTotal: ${playerTotal} \t${bust}`;
-                if(playerTotal > 21) {
-                    return gameOver(text, "loss");
-                }
-                else if(bust.toLowerCase.includes("blackjack")) {
-                    return gameOver(text, "blackjack");
-                }
-                
-                return message.reply(text);
+                    let aces = blackjack[selectedMember.id].playerAces;
+                    while(aces > 0 && playerTotal > 21) {
+                        playerTotal -= 10;
+                    }
+        
+                    // dealer card
+                    for(let i = 0; i < 1; i++) {
+                        dealerCardsText += dealerCards[i] + ":" + dealerSuits[i] + ": ";
+                        dealerTotal = cardToNumber(dealerCards[i]);
+                    }
+                    
+                    if(playerTotal > 21) {
+                        bust = "**Bust**";
+                    }
+                    if(playerTotal == 21) {
+                        if(hit == "false") {
+                            bust = "**Blackjack!**";
+                        }
+                        else {
+                            bust = "**21!**";
+                        }
+                    }
+                    
+                    if(!bust.toLowerCase().includes("bust") && playerTotal != 21 && hit != "double") {
+                        return message.reply(`\n:slot_machine: Bet: **${bet}**\n\tDealer: **${dealerCardsText}**\tTotal: ${dealerTotal}\n\tPlayer:**${playerCardsText}**\tTotal: ${playerTotal} \t${bust}`);
+                    }
+
+                    let text = `\n:slot_machine: Bet: **${bet}**\n\tDealer: **${dealerCardsText}**\tTotal: ${dealerTotal}\n\tPlayer: **${playerCardsText}**\tTotal: ${playerTotal} \t${bust}`;
+                    if(hit == "double") {
+                        
+                        blackjack[selectedMember.id].betAmount = blackjack[selectedMember.id].betAmount*2;
+                        bet = blackjack[selectedMember.id].betAmount;
+                        
+                        fs.writeFile("./blackjack.json", JSON.stringify(blackjack), (err) => {
+                            if(err) log(err);
+                        });
+
+                        message.reply(text);
+
+                        setTimeout(function() {
+                            if(hit == "double" && playerTotal <= 21) {
+                                return dealerTurn("true");
+                            }
+                        }, 100);
+                    }
+                    
+                    setTimeout(function() {
+                        if(playerTotal == 21 && !bust.toLowerCase().includes("blackjack")) {
+                            return dealerTurn("true");
+                        }
+                        newDealerCard();
+                        dealerCardsText = "";
+                        dealerTotal = 0;
+
+                        // dealer card
+                        for(let i = 0; i < dealerCards.length; i++) {
+                            dealerCardsText += dealerCards[i] + ":" + dealerSuits[i] + ": ";
+                            dealerTotal += cardToNumber(dealerCards[i]);
+                        }
+                        if(playerTotal > 21) {
+                            return setTimeout(gameOver, 200, text, "loss");
+                        }
+                        else if(bust.toLowerCase().includes("blackjack")) {
+                            return setTimeout(gameOver, 200, text, "blackjack");
+                        }
+                    }, 100)
+                    
+                    return message.reply(text);
+                    
+                },400);
                 
             }
     
@@ -219,7 +224,8 @@ module.exports.run = async (bot, message, args) => {
                 let dealerCardsText = "";
                 let playerTotal = 0;
     
-                do {
+                let intr = setInterval(function() {
+
                     newDealerCard();
     
                     let dealerSuits = blackjack[selectedMember.id].dealerSuits;
@@ -253,7 +259,7 @@ module.exports.run = async (bot, message, args) => {
                             dealerTotal -= 10;
                         }
                         dealerCardsText += dealerCards[i] + ":" + dealerSuits[i] + ": ";
-                       
+                        
                     }
                     
                     if(dealerTotal > 21) {
@@ -264,22 +270,26 @@ module.exports.run = async (bot, message, args) => {
                         
                         message.reply(`Dealer: **${dealerCardsText}**\tTotal: ${dealerTotal}`);
                     }
-                    
-                } while(dealerTotal < 17 && blackjack[selectedMember.id].dealerAces <= 0)
+
+                    if (dealerTotal >= 17) clearInterval(intr);
+                  }, 100);
+
+                setTimeout(function() {
+                    let text = `\n:slot_machine: Bet: **${bet}**\n\tDealer: **${dealerCardsText}**\tTotal: ${dealerTotal}  ${bust}\n\n\tPlayer:**${playerCardsText}**\tTotal: ${playerTotal}`;
+                    if(dealerTotal > 21) {
+                        return gameOver(text, "win");
+                    }
+                    else if(playerTotal > dealerTotal) {
+                        return gameOver(text, "win");
+                    }
+                    else if(playerTotal < dealerTotal) {
+                        return gameOver(text, "loss");
+                    }
+                    else {
+                        return gameOver(text, "push");
+                    }
+                }, 1000)
                 
-                let text = `\n:slot_machine: Bet: **${bet}**\n\tDealer: **${dealerCardsText}**\tTotal: ${dealerTotal}  ${bust}\n\n\tPlayer:**${playerCardsText}**\tTotal: ${playerTotal}`;
-                if(dealerTotal > 21) {
-                    return gameOver(text, "win");
-                }
-                else if(playerTotal > dealerTotal) {
-                    return gameOver(text, "win");
-                }
-                else if(playerTotal < dealerTotal) {
-                    return gameOver(text, "loss");
-                }
-                else {
-                    return gameOver(text, "push");
-                }
             }
     
             function newDealerCard() {
@@ -303,7 +313,6 @@ module.exports.run = async (bot, message, args) => {
                 fs.writeFile("./blackjack.json", JSON.stringify(blackjack), (err) => {
                     if(err) log(err);
                 });
-                
             }
 
             function gameOver(text, win) {
@@ -338,13 +347,11 @@ module.exports.run = async (bot, message, args) => {
                     playerAces: 0,
                     betAmount: 0
                 };
-
+                
                 fs.writeFile("./blackjack.json", JSON.stringify(blackjack), (err) => {
                     if(err) log(err);
                 });
 
-                
-                //console.log(bank);
                 fs.writeFile("./bank.json", JSON.stringify(bank), (err) => {
                     if(err) log(err);
                 });
@@ -391,7 +398,6 @@ module.exports.run = async (bot, message, args) => {
     }
     catch (error) {
         console.log(error);
-        
     }
 }
 

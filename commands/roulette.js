@@ -1,8 +1,8 @@
 const Discord = require("discord.js");
 const fs = require("fs");
-let bank = JSON.parse(fs.readFileSync("./bank.json", "utf8"));
 
 module.exports.run = async (bot, message, args) => {
+    let bank = JSON.parse(fs.readFileSync("./bank.json", "utf8"));
     
     if(message.channel.name == "roulette") {
     
@@ -14,7 +14,7 @@ module.exports.run = async (bot, message, args) => {
                 money: 0
             };
         
-           // console.log(bank);
+            console.log(bank);
             
             fs.writeFile("./bank.json", JSON.stringify(bank), (err) => {
                 if(err) log(err);
@@ -147,9 +147,6 @@ module.exports.run = async (bot, message, args) => {
         }
         
         bank[selectedMember.id].money = memberFunds;
-
-        
-        //console.log(bank);
 
         fs.writeFile("./bank.json", JSON.stringify(bank), (err) => {
             if(err) log(err);
