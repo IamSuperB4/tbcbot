@@ -4,21 +4,21 @@ const fs = require("fs");
 module.exports.run = async (bot, message, args) => {
     if(message.channel.name == "roulette") {
         return message.reply(`**Bot commands**: if you **ping the bot**, it will respond to:
-            Hello in 10 different languages and almost any common English way to say hello
-            Say bye/goodbye to it
-            Asking how it's day is going
-            Ask for your lucky number
-            Ask if you will win anything
-            Tell TBC bot you love it
-            Ask if it likes you
-            Ask what the best clan is
-            Ask who the best leader is
-            Congratulate or thank it
+                \tHello in 10 different languages and almost any common English way to say hello
+                \tSay bye/goodbye to it
+                \tAsking how it's day is going
+                \tAsk for your lucky number
+                \tAsk if you will win anything
+                \tTell TBC bot you love it
+                \tAsk if it likes you
+                \tAsk what the best clan is
+                \tAsk who the best leader is
+                \tCongratulate or thank it
             
             **Favorites:**
-            Ask for an 8 ball reading (must have the word "8 ball" in the message)
-            Ask for a dog or cat picture
-            Insults
+                \tAsk for an 8 ball reading (must have the word "8 ball" in the message)
+                \tAsk for a dog or cat picture
+                \tInsults
             
             More responses coming soon. Please ask for anything you would like it to respond to or issues with the current setup`);
     }
