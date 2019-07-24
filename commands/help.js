@@ -15,7 +15,7 @@ module.exports.run = async (bot, message, args) => {
             Ask who the best leader is
             Congratulate or thank it
             
-            Favorites
+            **Favorites:**
             Ask for an 8 ball reading (must have the word "8 ball" in the message)
             Ask for a dog or cat picture
             Insults

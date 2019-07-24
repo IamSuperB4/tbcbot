@@ -472,7 +472,7 @@ bot.on('message', message => {
     if(message.content.toLowerCase().includes("can")
     && message.content.toLowerCase().includes("ask"))
     {
-      message.channel.send(`Bot commands: if you ping the bot, it will respond to:
+      message.channel.send(`**Bot commands**: if you **ping the bot**, it will respond to:
         Hello in 10 different languages and almost any common English way to say hello
         Say bye/goodbye to it
         Asking how it's day is going
@@ -484,7 +484,7 @@ bot.on('message', message => {
         Ask who the best leader is
         Congratulate or thank it
         
-        Favorites
+        **Favorites:**
         Ask for an 8 ball reading (must have the word "8 ball" in the message)
         Ask for a dog or cat picture
         
