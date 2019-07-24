@@ -472,22 +472,22 @@ bot.on('message', message => {
     if(message.content.toLowerCase().includes("can")
     && message.content.toLowerCase().includes("ask"))
     {
-      message.channel.send(`Bot commands: if you ping the bot, it will respond to:\n
-        Hello in 10 different languages and almost any common English way to say hello\n
-        Say bye/goodbye to it\n
-        Asking how it's day is going\n
-        Ask for your lucky number\n
-        Ask if you will win anything\n
-        Tell TBC bot you love it\n
-        Ask if it likes you\n
-        Ask what the best clan is\n
-        Ask who the best leader is\n
-        Congratulate or thank it\n
-        \n
-        Favorites\n
-        Ask for an 8 ball reading (must have the word "8 ball" in the message)\n
-        Ask for a dog or cat picture\n
-        \n
+      message.channel.send(`Bot commands: if you ping the bot, it will respond to:
+        Hello in 10 different languages and almost any common English way to say hello
+        Say bye/goodbye to it
+        Asking how it's day is going
+        Ask for your lucky number
+        Ask if you will win anything
+        Tell TBC bot you love it
+        Ask if it likes you
+        Ask what the best clan is
+        Ask who the best leader is
+        Congratulate or thank it
+        
+        Favorites
+        Ask for an 8 ball reading (must have the word "8 ball" in the message)
+        Ask for a dog or cat picture
+        
         More responses coming soon. Please ask for anything you would like it to respond to or issues with the current setup`);
     }
 
