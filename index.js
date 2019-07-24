@@ -5,7 +5,7 @@ const auth = require("./auth.json");
 const Discord = require("discord.js");
 const bot = new Discord.Client({ disableEveryone: true });
 const fs = require("fs");
-const token = process.env.token;
+const token = 'NTc4MDMyNDExOTk3MTEwMjky.XOubzA.opbquDMB0UvW8NtGu2dk9qWgU1A';
 const r2 = require("r2");
 const querystring = require('querystring');
 const CAT_API_URL   = "https://api.thecatapi.com/"
@@ -456,25 +456,10 @@ bot.on('message', message => {
     {
       message.channel.send(`I love you too :heart: ${message.member}!`);
     }
-    
-    // Sad -- hate, 
-    if(message.content.toLowerCase().includes("ily")
-    || message.content.toLowerCase().includes("i")
-    && message.content.toLowerCase().includes("love")
-    && message.content.toLowerCase().includes("you")) 
-    {
-      message.channel.send(`I love you too :heart: ${message.member}!`);
-    }
 
     // Meme
     if(message.content.toLowerCase().includes("meme")) {
       message.channel.send(`I'm still collecting memes :pencil: ${message.member}. Send potential memes to IamSuperB4`);
-    }
-
-    // Good job
-    if(message.content.toLowerCase().includes("bye"))
-    {
-      message.channel.send(`Goodbye :wave: ${message.member}!`);
     }
 
     // Good job
@@ -549,7 +534,9 @@ bot.on('message', message => {
     }
 
     // Stupid
-    if(message.content.toLowerCase().includes("stupid"))
+    if(message.content.toLowerCase().includes("stupid")
+    || message.content.toLowerCase().includes("dumb")
+    || message.content.toLowerCase().includes("idiot"))
     { 
       if(message.content.toLowerCase().includes("you are")
       || message.content.toLowerCase().includes("you")
