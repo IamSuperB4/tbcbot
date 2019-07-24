@@ -207,7 +207,7 @@ bot.on('message', message => {
     // Hello
     if(message.content.toLowerCase().includes("hello")
     || message.content.toLowerCase().includes("hey")
-    || message.content.toLowerCase().includes("hi ")
+    || message.content.toLowerCase().includes("hi")
     || message.content.toLowerCase().includes("howdy")
     || message.content.toLowerCase().includes("hey")
     || message.content.toLowerCase().includes("hola")
@@ -242,7 +242,8 @@ bot.on('message', message => {
 
     // How is your day
     if(message.content.toLowerCase().includes("how")
-    && message.content.toLowerCase().includes("day")) {
+    && message.content.toLowerCase().includes("day")
+    || message.content.toLowerCase().includes("how're u goin")) {
       let randomNumber = Math.floor(Math.random() * 6);
       if(randomNumber == 0) message.channel.send(`Ehhh ${message.member}`);
       if(randomNumber == 1) message.channel.send(`Not too bad, how about yours ${message.member}?`);
@@ -475,6 +476,105 @@ bot.on('message', message => {
     {
       message.channel.send(`Goodbye :wave: ${message.member}!`);
     }
+
+    // Good job
+    if(message.content.toLowerCase().includes("bye"))
+    {
+      message.channel.send(`Goodbye :wave: ${message.member}!`);
+    }
+
+    // What can I ask you?
+    if(message.content.toLowerCase().includes("can")
+    && message.content.toLowerCase().includes("ask"))
+    {
+      message.channel.send(`Bot commands: if you ping the bot, it will respond to:\n
+        Hello in 10 different languages and almost any common English way to say hello\n
+        Say bye/goodbye to it\n
+        Asking how it's day is going\n
+        Ask for your lucky number\n
+        Ask if you will win anything\n
+        Tell TBC bot you love it\n
+        Ask if it likes you\n
+        Ask what the best clan is\n
+        Ask who the best leader is\n
+        Congratulate or thank it\n
+        \n
+        Favorites\n
+        Ask for an 8 ball reading (must have the word "8 ball" in the message)\n
+        Ask for a dog or cat picture\n
+        \n
+        More responses coming soon. Please ask for anything you would like it to respond to or issues with the current setup`);
+    }
+
+    // Insults
+    // F you
+    if(message.content.toLowerCase().includes("fuck")
+    && message.content.toLowerCase().includes("you")
+    || message.content.toLowerCase().includes("fuck")
+    && message.content.toLowerCase().includes("u")
+    || message.content.toLowerCase().includes("fuk")
+    && message.content.toLowerCase().includes("you")
+    || message.content.toLowerCase().includes("fuk")
+    && message.content.toLowerCase().includes("u")
+    || message.content.toLowerCase().includes("fk")
+    && message.content.toLowerCase().includes("you")
+    || message.content.toLowerCase().includes("fk")
+    && message.content.toLowerCase().includes("u")
+    || message.content.toLowerCase().includes("f u"))
+    {
+      let randomNumber = Math.floor(Math.random() * 6);
+      if(randomNumber == 0) message.channel.send(`I'm not gonna stoop to your level ${message.member}`);
+      if(randomNumber == 1) message.channel.send(`Calm down ${message.member}`);
+      if(randomNumber == 2) message.channel.send(`Do you want to get banned for swearing :thinking: ${message.member}`);
+      if(randomNumber == 3) message.channel.send(`That's not very nice of you ${message.member}`);
+      if(randomNumber == 4) message.channel.send(`You treat your supreme bot with respect ${message.member}!`);
+      if(randomNumber == 5) message.channel.send(`:rolling_eyes: ${message.member}!`);
+    }
+
+    // Gay
+    if(message.content.toLowerCase().includes("gay"))
+    { 
+      if(message.content.toLowerCase().includes("you are")
+      || message.content.toLowerCase().includes("you")
+      && message.content.toLowerCase().includes("re")
+      || message.content.toLowerCase().includes("u r")
+      || message.content.toLowerCase().includes("ur"))
+      {
+        let randomNumber = Math.floor(Math.random() * 3);
+        if(randomNumber == 0) message.channel.send(`No you're gay ${message.member}`);
+        if(randomNumber == 1) message.channel.send(`No you are ${message.member}`);
+        if(randomNumber == 2) message.channel.send(`I'm only attracted to female bots ${message.member}`);
+        if(randomNumber == 2) message.channel.send(`:kissing_smiling_eyes: ${message.member}`);
+      }
+    }
+
+    // Stupid
+    if(message.content.toLowerCase().includes("stupid"))
+    { 
+      if(message.content.toLowerCase().includes("you are")
+      || message.content.toLowerCase().includes("you")
+      && message.content.toLowerCase().includes("re")
+      || message.content.toLowerCase().includes("u r")
+      || message.content.toLowerCase().includes("ur")) {
+        let randomNumber = Math.floor(Math.random() * 3);
+        if(randomNumber == 0) message.channel.send(`No you are ${message.member}`);
+        if(randomNumber == 1) message.channel.send(`I'm not the one calling an inanimate bot stupid ${message.member}`);
+        if(randomNumber == 2) message.channel.send(`I can beat you at #blackjack and #roulette. I'm the smart one ${message.member}`);
+      }
+    }
+
+    // Shut up
+    if(message.content.toLowerCase().includes("shut up")
+    || message.content.toLowerCase().includes("shutup"))
+    { 
+      let randomNumber = Math.floor(Math.random() * 3);
+      if(randomNumber == 0) message.channel.send(`You shut up ${message.member}`);
+      if(randomNumber == 1) message.channel.send(`I'll shut up when I want to ${message.member}`);
+      if(randomNumber == 2) message.channel.send(`I'll shut up when you shut up ${message.member}`);
+    }
+
+
+
   }
 });
 

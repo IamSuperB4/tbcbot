@@ -79,6 +79,9 @@ module.exports.run = async (bot, message, args) => {
             else if(args[0].toLowerCase().includes("double")) {
                 if(blackjack[selectedMember.id].playerCards.length != 0) 
                 {
+                    if(memberFunds >= blackjack[selectedMember.id].betAmount * 2) {
+                        return message.reply("You don't have the money to double down");;
+                    }
                     return playerTurn("double");
                 }
                 return message.reply("You have to start a new game first by saying:\n\t!blackjack new game bet [bet amount]");
