@@ -472,7 +472,8 @@ bot.on('message', message => {
     if(message.content.toLowerCase().includes("can")
     && message.content.toLowerCase().includes("ask"))
     {
-      message.channel.send(`**Bot commands**: if you **ping the bot**, it will respond to:
+      message.channel.send(`
+      **Bot commands**: if you **ping the bot**, it will respond to:
       \tHello in 10 different languages and almost any common English way to say hello
       \tSay bye/goodbye to it
       \tAsking how it's day is going
@@ -483,12 +484,12 @@ bot.on('message', message => {
       \tAsk what the best clan is
       \tAsk who the best leader is
       \tCongratulate or thank it
-      
+      \n
       **Favorites:**
       \tAsk for an 8 ball reading (must have the word "8 ball" in the message)
       \tAsk for a dog or cat picture
       \tInsults
-
+      \n
       More responses coming soon. Please ask for anything you would like it to respond to or issues with the current setup`);
     }
 
