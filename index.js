@@ -48,17 +48,16 @@ bot.on("guildMemberAdd", async member => {
 });
 
 bot.on("guildMemberRemove", async member => {
-    console.log(`${member.id} has left the server. Goodbye! :wave:`);
+    console.log(`${member.id} has left the server`);
 
     let welcomeChannel = bot.channels.get("582469935628943360");
-    welcomeChannel.send(`${member} has left the server!`);
+    welcomeChannel.send(`${member} has left the server. Goodbye! :wave:`);
 });
 
 bot.on("guildBanAdd", async (guild, member) => {
     console.log(`${member.id} was banned`);
 
     let banChannel = guild.channels.find('name', "moderation-log");
-    console.log(banChannel);
     
     banChannel.send(`${member} was banned!`);
 });
