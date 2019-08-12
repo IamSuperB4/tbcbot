@@ -5,7 +5,7 @@ const auth = require("./auth.json");
 const Discord = require("discord.js");
 const bot = new Discord.Client({ disableEveryone: true });
 const fs = require("fs");
-const token = process.env.token;
+const token = process.env.token;//
 const r2 = require("r2");
 const querystring = require('querystring');
 const CAT_API_URL   = "https://api.thecatapi.com/"
@@ -37,17 +37,20 @@ bot.on("ready", async () => {
 });
 
 bot.on("guildMemberAdd", async member => {
-    let welcomeChannel = member.guild.channels.find('name', "newcomer");
-    welcomeChannel.send(`Welcome to The Bloons Citadel ${member}!`);
+    console.log("added");
+
+    let welcomeChannel = bot.channels.get("582469935628943360");
+    let rulesChannel = "582477655119626250";
+    welcomeChannel.send(`Welcome to The Bloons Citadel ${member}! Please read our <#${rulesChannel}> before continuing to our server. Thank you`);
 
     let guildRole = member.guild.roles.find('name', "Guest");
     member.addRole(guildRole.id);
 });
 
 bot.on("guildMemberRemove", async member => {
-    console.log(`${member.id} has left the server`);
+    console.log(`${member.id} has left the server. Goodbye! :wave:`);
 
-    let welcomeChannel = member.guild.channels.find('name', "newcomer");
+    let welcomeChannel = bot.channels.get("582469935628943360");
     welcomeChannel.send(`${member} has left the server!`);
 });
 
@@ -67,14 +70,14 @@ bot.on("guildBanRemove", async (guild, member) => {
     console.log(banChannel);
     banChannel.send(`${member} has been unbanned!`);
 });
-
+/*
 bot.on("channelCreate", async channel => {
     console.log(`${channel.name} has been created`);
 
     let sChannel = channel.guild.channels.find('name', "moderation-log");
     sChannel.send(`${channel} has been created!`);
 });
-
+*/
 bot.on("channelDelete", async channel => {
     console.log(`${channel.name} has been deleted`);
 
@@ -202,6 +205,12 @@ bot.on('message', message => {
     
 
     if(message.content.toLowerCase().includes("test")) {
+
+      let id = message.channel.id;
+      console.log(id);
+      
+      //message.channel.send(`<#582469935628943360>`);
+      
     }
 
     // Hello
